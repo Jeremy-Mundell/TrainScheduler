@@ -1,0 +1,9 @@
+@media (min-width: 900px) {
+    .container{
+        max-width: 970px;
+    }
+}
+
+/*.jumbotron {
+max-width: 970px
+}*/
