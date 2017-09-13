@@ -1,6 +1,7 @@
 // alert("I work");
 
  
+
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyDPaJg9A59VdAuDW6KjuXQNyj-ZwW5YX9s",
@@ -10,15 +11,24 @@
     storageBucket: "trainscheduler-478cf.appspot.com",
     messagingSenderId: "35697103270"
   };
-
   firebase.initializeApp(config);
+  console.log(firebase);
 
-
-//created the variable "database"
   var database = firebase.database();
 
-  //creating a function for the submit button
+//global variable traindata
+  var trainData;
 
+  database.ref().on("value", function(snapshot){
+    //grab updated train data for firebase
+    traindata = snapshot.val();
+
+    //refresh HTML table data
+    refreshTable();
+  });
+
+
+  //creating a function for the submit button
   $("#submitTrainInfo").on("click",function(){
 
 // here we are creating variables that correspond to the input boxes
@@ -27,24 +37,17 @@
   	var timeInput = $("#timeInput").val().trim();
   	var freqInput = $("#freqInput").val().trim();
 
- //add data from form and add it to firebase DB
-  database.push({
-              nameInput: train,
-              destinationInput: destination,
-              timeInput: time,
-              freqInput: frequency
-          })
+ //push data from form to firebase DB
+  database.ref().push({
+              train: nameInput,
+              destination: destinationInput,
+              time: timeInput,
+              frequency: freqInput
+          });
 
 
-console.log(database.push);
+// console.log(database.ref);
 
-  //next we want to combine all the input variables in to a single variable
-
-
-
-  // push the input data to Firebase
-
-  	database.ref().push(database);
 
   //clearing the input from the previous train for the next train input
 
@@ -54,6 +57,27 @@ console.log(database.push);
   $("#frequencyInput").val("");
 
 
-
+return false;
   });
  
+
+ function refreshTable(){
+
+//clear data from table
+  $(".table-body-row").empty();
+
+  //
+var arrayOfObjects = [];
+
+var arrayOfTimes = [];
+
+$.each(data, function(key, value){
+
+  var nameInput = value.nameInput;
+  var destinationInput = value.destination;
+  var timeInput = value.timeInput;
+  var freqInput = value.freqInput;
+
+
+})
+ }
