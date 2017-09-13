@@ -71,13 +71,13 @@ var arrayOfObjects = [];
 
 var arrayOfTimes = [];
 
-$.each(data, function(key, value){
+// $.each(data, function(key, value){
 
-  var nameInput = value.nameInput;
-  var destinationInput = value.destination;
-  var timeInput = value.timeInput;
-  var freqInput = value.freqInput;
+//   var nameInput = value.nameInput;
+//   var destinationInput = value.destination;
+//   var timeInput = value.timeInput;
+//   var freqInput = value.freqInput;
 
 
-})
- }
+}
+ 
