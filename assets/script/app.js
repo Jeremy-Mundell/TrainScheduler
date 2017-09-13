@@ -10,6 +10,7 @@
     storageBucket: "trainscheduler-478cf.appspot.com",
     messagingSenderId: "35697103270"
   };
+
   firebase.initializeApp(config);
 
 
@@ -18,33 +19,32 @@
 
   //creating a function for the submit button
 
-  $("#s").on("click", function(){
+  $("#submitTrainInfo").on("click",function(){
 
 // here we are creating variables that correspond to the input boxes
-  	var nameInput = $("#nameInput").val(),trim();
-  	var destinationInput = $("#destinationInput").val(),trim();
-  	var timeInput = $("#timeInput").val(),trim();
-  	var freqInput = $("#freqInput").val(),trim();
+  	var nameInput = $("#nameInput").val().trim();
+  	var destinationInput = $("#destinationInput").val().trim();
+  	var timeInput = $("#timeInput").val().trim();
+  	var freqInput = $("#freqInput").val().trim();
 
-  	//next we want to combine all the input variables in to a single variable
-
-  	var newTrain = {
-  		name : nameInput,
-  		destination : destinationInput,
-  		time : timeInput,
-  		frequency : freqInput
-  	}
-
-  	// push the input data to Firebase
-
-  	database.ref().push(newTrain);
+ //add data from form and add it to firebase DB
+  database.push({
+              nameInput: train,
+              destinationInput: destination,
+              timeInput: time,
+              freqInput: frequency
+          })
 
 
-  console.log(newTrain.name);
-  console.log(newTrain.destination);
-  console.log(newTrain.time);
-  console.log(newTrain.frequency);
+console.log(database.push);
 
+  //next we want to combine all the input variables in to a single variable
+
+
+
+  // push the input data to Firebase
+
+  	database.ref().push(database);
 
   //clearing the input from the previous train for the next train input
 
