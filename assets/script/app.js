@@ -48,13 +48,53 @@
 
 // console.log(database.ref);
 
+var newData = {
+  train: nameInput,
+  destination: destinationInput,
+  time: timeInput,
+  frequency:freqInput,
+  // minutesAwayTd
+
+};
+//push new objects to array
+arrayOfObjects.push(newData);
+//creating new data cells 
+var trainNameTd = $("<td>");
+var destinationTd = $("<td>");
+var frequencyTd = $("<td>");
+var nextDepartureTd = $("<td>");
+// var minutesAwayTd = $("<td>");
+
+trainNameTd.text(arrayOfObjects[j].train);
+destinationtd.text(arrayOfObjects[j].destination);
+frequencyTd.text(arrayOfObjects[j].frequency);
+nextDepartureTd.text(arrayOfObjects[j].nextDeparture);
+minutesAwayTd.text(arrayOfObjects[j].minutesAway);
+
+
+//append data to new rows
+
+newRow.append(trainNameTd);
+newRow.append(destinationtd);
+newRow.append(frequencyTd);
+newRow.append(nextDepartureTd);
+newRow.append(minutesAwayTd);
+
+$(".table").append(newRow);
+     
+
+
+
+
 
   //clearing the input from the previous train for the next train input
 
   $("#nameInput").val("");
   $("#destinationInput").val("");
   $("#timeInput").val("");
-  $("#frequencyInput").val("");
+  $("#freqInput").val("");
+
+
 
 
 return false;
@@ -69,7 +109,7 @@ return false;
   //
 var arrayOfObjects = [];
 
-var arrayOfTimes = [];
+// var arrayOfTimes = [];
 
 // $.each(data, function(key, value){
 
