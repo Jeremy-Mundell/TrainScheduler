@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 
 </head>
 <body>
@@ -18,7 +19,9 @@
               </div>
     </div>
 <br>
-<table class="table table-bordered">
+
+<div> 
+<table class="table table-bordered" id="newTable">
   <thead> <h3>Current Train Schedule</h3>
     <tr>
       <th>Train Name</th>
@@ -28,21 +31,16 @@
       <th>Minutes Away</th>
     </tr>
   </thead>
+
   <tbody>
-    <tr>
-      <td>TRAIN</td>
-      <td>NOWHERE</td>
-      <td>15</td>
-      <td>03:00</td>
-      <td>2</td>
-    </tr>
-    
+
   </tbody>
 
 
 <form>
 <br>
 </table>
+</div>
 
 <h3>Add Train</h3>
   <div class="form-group">

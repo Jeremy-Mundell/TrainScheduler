@@ -1,6 +1,6 @@
-// alert("I work");
+$( document ).ready(function() {
 
- 
+
 
   // Initialize Firebase
   var config = {
@@ -12,112 +12,82 @@
     messagingSenderId: "35697103270"
   };
   firebase.initializeApp(config);
-  console.log(firebase);
 
-  var database = firebase.database();
+// a var to represent the database
+ var database = firebase.database();
 
-//global variable traindata
-  var trainData;
+// button to submit the user given info
+$("#submitTrainIfno").on("click", function(event) {
+  event.preventDefault(); //no button reset
 
-  database.ref().on("value", function(snapshot){
-    //grab updated train data for firebase
-    traindata = snapshot.val();
+  //set user input values to variables
+  var trainName = $("#nameInput").val().trim();
+  var destination = $("#destinationInput").val().trim();
 
-    //refresh HTML table data
-    refreshTable();
-  });
+  //converts user input to usable info
+  var firstTime = moment($("#timeInput").val().trim(), "hh:mm").subtract(1, "years").format("X");
 
+  var frequency = $("#freqInput").val().trim();
+  
+  //current time
+  var currentTime = moment();
+  console.log("CURRENT TIME: " +  moment(currentTime).format("hh:mm"));
 
-  //creating a function for the submit button
-  $("#submitTrainInfo").on("click",function(){
+    //combines new train information
+  var newTrain = {
 
-// here we are creating variables that correspond to the input boxes
-  	var nameInput = $("#nameInput").val().trim();
-  	var destinationInput = $("#destinationInput").val().trim();
-  	var timeInput = $("#timeInput").val().trim();
-  	var freqInput = $("#freqInput").val().trim();
-
- //push data from form to firebase DB
-  database.ref().push({
-              train: nameInput,
-              destination: destinationInput,
-              time: timeInput,
-              frequency: freqInput
-          });
+    train: nameInput,
+    trainGoing: destinationInput,
+    trainComing: timeInput,
+    everyXMin: freqInput
+  };
 
 
-// console.log(database.ref);
-
-var newData = {
-  train: nameInput,
-  destination: destinationInput,
-  time: timeInput,
-  frequency:freqInput,
-  // minutesAwayTd
-
-};
-//push new objects to array
-arrayOfObjects.push(newData);
-//creating new data cells 
-var trainNameTd = $("<td>");
-var destinationTd = $("<td>");
-var frequencyTd = $("<td>");
-var nextDepartureTd = $("<td>");
-// var minutesAwayTd = $("<td>");
-
-trainNameTd.text(arrayOfObjects[j].train);
-destinationtd.text(arrayOfObjects[j].destination);
-frequencyTd.text(arrayOfObjects[j].frequency);
-nextDepartureTd.text(arrayOfObjects[j].nextDeparture);
-minutesAwayTd.text(arrayOfObjects[j].minutesAway);
-
-
-//append data to new rows
-
-newRow.append(trainNameTd);
-newRow.append(destinationtd);
-newRow.append(frequencyTd);
-newRow.append(nextDepartureTd);
-newRow.append(minutesAwayTd);
-
-$(".table").append(newRow);
-     
-
-
-
-
-
-  //clearing the input from the previous train for the next train input
-
+  //uploads newTrain to firebase
+  database.ref().push(newTrain);
+  //*push* adds to info already in firebase. 
+  
+  //clears elements before adding new text
   $("#nameInput").val("");
   $("#destinationInput").val("");
   $("#timeInput").val("");
-  $("#freqInput").val("");
+  $("#freq").val("");
+
+  //supposed to prevent from moving to a new page... idk how
+  return false;
+
+}); //end of onclick
 
 
+database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+
+    console.log(childSnapshot.val());
 
 
-return false;
-  });
- 
-
- function refreshTable(){
-
-//clear data from table
-  $(".table-body-row").empty();
-
-  //
-var arrayOfObjects = [];
-
-// var arrayOfTimes = [];
-
-// $.each(data, function(key, value){
-
-//   var nameInput = value.nameInput;
-//   var destinationInput = value.destination;
-//   var timeInput = value.timeInput;
-//   var freqInput = value.freqInput;
+    //store in variables
+    var trainName = childSnapshot.val().train;
+    var destination =childSnapshot.val().trainGoing;
+    var firstTime = childSnapshot.val().trainComing;
+    var frequency = childSnapshot.val().everyXMin;
 
 
-}
- 
+    // //makes first train time neater
+    // var trainTime = moment.unix(firstTime).format("hh:mm");
+    // //calculate difference between times
+    // var difference =  moment().diff(moment(trainTime),"minutes");
+
+    // //time apart(remainder)
+    // var trainRemain = difference % frequency;
+
+    // //minutes until arrival
+    // var minUntil = frequency - trainRemain;
+
+    // // //next arrival time
+    // // var nextArrival = moment().add(minUntil, "minutes").format('hh:mm');
+
+    //adding info to HTML table 
+    $("#newTable").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + "</td><td>"  + "</td></tr>");
+
+});
+});
+
