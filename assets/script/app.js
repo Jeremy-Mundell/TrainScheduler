@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+
 
 
 
@@ -16,11 +16,12 @@ $( document ).ready(function() {
 // a var to represent the database
  var database = firebase.database();
 
-// button to submit the user given info
+// button to submit the train info
 $("#submitTrainIfno").on("click", function(event) {
-  event.preventDefault(); //no button reset
+  event.preventDefault(); 
+  //no button reset
 
-  //set user input values to variables
+  //create variables for input fields
   var trainName = $("#nameInput").val().trim();
   var destination = $("#destinationInput").val().trim();
 
@@ -39,7 +40,7 @@ $("#submitTrainIfno").on("click", function(event) {
     train: nameInput,
     trainGoing: destinationInput,
     trainComing: timeInput,
-    everyXMin: freqInput
+    everyMin: freqInput
   };
 
 
@@ -53,7 +54,7 @@ $("#submitTrainIfno").on("click", function(event) {
   $("#timeInput").val("");
   $("#freq").val("");
 
-  //supposed to prevent from moving to a new page... idk how
+
   return false;
 
 }); //end of onclick
@@ -68,26 +69,29 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
     var trainName = childSnapshot.val().train;
     var destination =childSnapshot.val().trainGoing;
     var firstTime = childSnapshot.val().trainComing;
-    var frequency = childSnapshot.val().everyXMin;
+    var frequency = childSnapshot.val().everyMin;
 
 
-    // //makes first train time neater
-    // var trainTime = moment.unix(firstTime).format("hh:mm");
-    // //calculate difference between times
-    // var difference =  moment().diff(moment(trainTime),"minutes");
+    //makes first train time neater
+    var trainTime = moment.unix(firstTime).format("hh:mm");
+    //calculate difference between times
+    var difference =  moment().diff(moment(trainTime),"minutes");
 
-    // //time apart(remainder)
-    // var trainRemain = difference % frequency;
+    //time apart(remainder)
+    var trainRemain = difference % frequency;
 
-    // //minutes until arrival
-    // var minUntil = frequency - trainRemain;
+    //minutes until arrival
+    var minUntil = frequency - trainRemain;
 
-    // // //next arrival time
-    // // var nextArrival = moment().add(minUntil, "minutes").format('hh:mm');
+    // //next arrival time
+    var nextArrival = moment().add(minUntil, "minutes").format('hh:mm');
 
-    //adding info to HTML table 
-    $("#newTable").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + "</td><td>"  + "</td></tr>");
+    // //adding info to HTML table 
+    // $("#newTable").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + "</td><td>"  + "</td></tr>");
+
+//adding to HTML train schedule table 
+    $("#newTable").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + nextArrival + "</td><td>" + minUntil + "</td></tr>");
 
 });
-});
+
 
