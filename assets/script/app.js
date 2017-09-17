@@ -16,6 +16,9 @@
 // a var to represent the database
  var database = firebase.database();
 
+
+
+
 // button to submit the train info
 $("#submitTrainIfno").on("click", function(event) {
   event.preventDefault(); 
@@ -57,7 +60,11 @@ $("#submitTrainIfno").on("click", function(event) {
 
   return false;
 
-}); //end of onclick
+}); 
+
+//ending onclick
+
+
 
 
 database.ref().on("child_added", function(childSnapshot, prevChildKey) {
@@ -72,9 +79,11 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
     var frequency = childSnapshot.val().everyMin;
 
 
-    //makes first train time neater
+    //this might work to clean up first train time??
     var trainTime = moment.unix(firstTime).format("hh:mm");
-    //calculate difference between times
+
+
+    //calculate difference between t
     var difference =  moment().diff(moment(trainTime),"minutes");
 
     //time apart(remainder)
@@ -83,13 +92,11 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
     //minutes until arrival
     var minUntil = frequency - trainRemain;
 
-    // //next arrival time
+   //next arrival time
     var nextArrival = moment().add(minUntil, "minutes").format('hh:mm');
 
-    // //adding info to HTML table 
-    // $("#newTable").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + "</td><td>"  + "</td></tr>");
-
-//adding to HTML train schedule table 
+    
+   //adding to HTML train schedule table 
     $("#newTable").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + nextArrival + "</td><td>" + minUntil + "</td></tr>");
 
 });
